@@ -202,6 +202,20 @@ public class ReqresTest {
     }
 
     @Test
+    public void delayedResponse() {
+        given().
+                log().all().
+                when().
+                get("https://reqres.in/api/users?delay=3").
+                then().
+                log().all().
+                statusCode(200).
+                body("page", equalTo(1), "total", equalTo(12), "data[0].id", equalTo(1),
+                        "data[0].first_name", equalTo("George"), "data[4].id", equalTo(5), "data[4].first_name",
+                        equalTo("Charles"));
+    }
+
+    @Test
     public void loginUnsuccessful() {
         given().
                 body("{\n" +
@@ -217,17 +231,5 @@ public class ReqresTest {
                 body("error", equalTo("Missing password"));
     }
 
-    @Test
-    public void delayedResponse() {
-        given().
-                log().all().
-        when().
-                get("https://reqres.in/api/users?delay=3").
-        then().
-                log().all().
-                statusCode(200).
-                body("page", equalTo(1), "total", equalTo(12), "data[0].id", equalTo(1),
-                        "data[0].first_name", equalTo("George"), "data[4].id", equalTo(5), "data[4].first_name",
-                        equalTo("Charles"));
-    }
+
 }
